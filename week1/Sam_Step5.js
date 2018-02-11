@@ -72,14 +72,16 @@ class StaffMember {
 
 const myMovie = new Movie('Gravity', 'Alfonso Cuarón');
 
+const mainDirector = new StaffMember('Alfonso Cuarón', 'director', '28-11-1961');
+const myMovie1 = new Movie('Gravity', mainDirector);
+
+
 const firstActor = new StaffMember('Sandra Bullock', 'actor', '26-07-1964');
 myMovie.addStar(firstActor);
 
 const secondActor = new StaffMember('George Cloony', 'actor', '06-5-1961');
 myMovie.addStar(secondActor);
 
-const mainDirector = new StaffMember('Alfonso Cuarón', 'director', '28-11-1961');
-myMovie.addStar(mainDirector);
 
 // create and add more staff members
 
