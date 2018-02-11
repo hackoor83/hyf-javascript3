@@ -87,6 +87,6 @@ myMovie.addStar(mainDirector);
 console.log(myMovie.getStars().map(actor => `${actor.getName()} ${actor.getAge()}`));
 
 const director = myMovie.getDirector();
-console.log(director);
+// console.log(director);
 
-console.log(`Director: ${director.getName()}`);
+console.log(`Director: ${director}`);
