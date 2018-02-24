@@ -10,39 +10,41 @@ button.innerHTML = "Click Me!";
 let paragraph = document.createElement('p');
 main.appendChild(paragraph);
 
+const responsesContainer = createAndAppend('div', main);
+responsesContainer.setAttribute('id', 'responsesContainer');
+const reposContainer = createAndAppend('div', responsesContainer);
+const reposUl = createAndAppend('ul', reposContainer);
+const contributorsContainer = createAndAppend('div', responsesContainer);
+const contributorsUl = createAndAppend('ul', contributorsContainer);
 
 button.addEventListener('click', () => {
     console.log('You clicked me!');
-    fetchAPIs(gitHubUrl, (error, data) => {
-        if (error) {
-            console.log('testing');
-        } else {
-            console.log(data);
-            const ul = createAndAppend('ul', main);
-
-            for (let i = 0; i < data.length; i++) {
-                const listItem = createAndAppend('li', ul, data[i]);
-
-                Object.keys(data[i]).forEach(function (prop) {
-                    const subListItem = createAndAppend('li', listItem, data[i][prop]);
-                    // Object.keys(prop).forEach(function (content) {
-                    //     createAndAppend('p', subListItem, content);
-                    // });
+    fetchAPI(gitHubUrl, (error, data) => {
+        data.forEach(element => {
+            console.log(element.name);
+            createAndAppend('li', reposUl, element.name);
+            const rli = document.getElementsByTagName('li');
+            // rli.setAttribute('href', 'https://api.github.com/repos/HackYourFuture/' + element.name);
+            fetchAPI(element.contributors_url, (error, data) => {
+                data.forEach(item => {
+                    console.log(item.login);
+                    createAndAppend('li', contributorsUl, item.login);
                 });
-
-                createAndAppend('p', ul, "=======================");
-            }
-        }
+            });
+        });
+        console.log('==================');
     });
 });
 
-function fetchAPIs(url, cb) {
-    const xhttp = new XMLHttpRequest();
-    xhttp.open('GET', url);
-    xhttp.responseType = 'json';
-    xhttp.send();
-    xhttp.onload = () => cb(null, xhttp.response);
-    xhttp.onerror = () => cb(new Error(xhttp.statusText));
+
+
+function fetchAPI(url, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.responseType = 'json';
+    xhr.send();
+    xhr.onload = () => callback(null, xhr.response);
+    xhr.onerror = () => callback(new Error(xhr.statusText));
 }
 
 function createAndAppend(name, parent, innerHTML) {
